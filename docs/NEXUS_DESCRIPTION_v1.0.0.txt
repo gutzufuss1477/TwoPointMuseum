@@ -1,24 +1,25 @@
 [b]Two Point Museum QoL Trainer 1.0.0[/b]
 
-A configurable QoL mod with a separate multilingual Windows trainer.
-
-[b]Main features[/b]
-• Workshop, training, analysis, veterinary and expedition speed multipliers
-• Staff movement multiplier while preserving vanilla energy/fatigue/skill modifiers
-• Max knowledge after one analysis or veterinary treatment
-• Applicant minimum rank and clean training slots
-• Max expedition survey after one completion
-• Configurable expedition exhibit quality
-• Museum-wide security coverage option
-• First Aid can cure expedition illnesses
-• External self-contained trainer with live config reload
-• 15 interface languages with automatic Steam-language detection
-
-[b]Requirements[/b]
-BepInEx 6 IL2CPP x64.
+Configurable QoL tweaks with a multilingual self-installing trainer.
 
 [b]Installation[/b]
-Extract the archive into the Two Point Museum game folder.
-Start the game once, then run TPMQoLTrainer\TPMQoLTrainer.exe.
+Extract the download and run [b]TPMQoLTrainer.exe[/b]. That's it.
 
-Tested with Two Point Museum 12.0.243206+2026-09-29.2232 and BepInEx 6.0.0-be.788.
+The trainer automatically finds Two Point Museum, installs the tested official BepInEx 6 IL2CPP x64 build when needed, installs/updates the mod and creates the config. Existing compatible BepInEx installations and user settings are preserved.
+
+[b]Main features[/b]
+[list]
+[*] Workshop, Training, Analysis, Veterinary and Expedition speed: 1x-20x
+[*] Staff movement: 1x-5x
+[*] Max knowledge options
+[*] Applicant rank and clean training slots
+[*] Expedition survey and quality controls
+[*] Security coverage radius
+[*] First Aid cures expedition illnesses
+[*] Live config editing and Vanilla reset
+[*] 15 trainer languages
+[/list]
+
+Staff movement preserves vanilla energy, fatigue, robot charging and movement-skill modifiers.
+
+Tested with Two Point Museum 12.0.243206 and BepInEx 6.0.0-be.788.

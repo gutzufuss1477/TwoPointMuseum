@@ -4,20 +4,19 @@
 
 Initial public release.
 
-- Added workshop speed multiplier.
-- Added staff training speed multiplier.
-- Added exhibit analysis speed multiplier.
-- Added veterinary treatment/spa speed multiplier.
-- Added expedition progress speed multiplier.
-- Added staff movement multiplier while preserving vanilla energy, fatigue and qualification effects.
-- Added maximum-knowledge options for exhibit analysis and veterinary treatment.
-- Added configurable minimum applicant rank.
-- Added applicant skill cleanup that preserves the vanilla base skill and keeps unlocked training slots free.
-- Added maximum survey after one expedition.
-- Added configurable expedition exhibit quality with minimum/exact modes.
-- Added configurable security-monitor coverage radius.
-- Added First Aid support for expedition illnesses.
-- Added external self-contained Windows trainer with live config reload.
-- Added automatic Steam game-language detection.
-- Added 15 trainer interface languages.
-- Added trainer config backup, vanilla reset, game status and launch-game controls.
+- Workshop, training, analysis, veterinary and expedition speed controls
+- Staff movement multiplier with vanilla energy/fatigue/skill behaviour preserved
+- Maximum-knowledge options
+- Applicant rank and skill-slot controls
+- Expedition survey and quality options
+- Security-monitor radius
+- First Aid support for expedition illnesses
+- External trainer with live config reload
+- 15 trainer languages with Steam-language detection
+- Automatic config backup and Vanilla reset
+- Self-installing trainer:
+  - detects the Steam game folder,
+  - installs official BepInEx 6 IL2CPP x64 when required,
+  - verifies the BepInEx download,
+  - installs/updates TPMQoL automatically,
+  - preserves existing compatible BepInEx installations and user config.

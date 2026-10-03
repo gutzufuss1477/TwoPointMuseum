@@ -46,6 +46,7 @@ internal sealed class MainForm : Form
     private readonly NumericUpDown _securityRadius = Num(0, 5000, 50);
     private readonly CheckBox _firstAid = Check("first_aid");
 
+    private string _gamePath = string.Empty;
     private string _configPath = DefaultConfig;
     private bool _loaded;
     private bool _changingLanguage;
@@ -62,12 +63,18 @@ internal sealed class MainForm : Form
         FormBorderStyle = FormBorderStyle.Sizable;
         MaximizeBox = true;
 
-        _configPath = DetectConfigPath();
+        _gamePath = AutoInstaller.FindGameDirectory() ?? string.Empty;
+        _configPath = !string.IsNullOrWhiteSpace(_gamePath)
+            ? AutoInstaller.GetConfigPath(_gamePath)
+            : DefaultConfig;
+
         L.SetLanguage(LoadInitialLanguage());
         BuildUi();
         SelectLanguageInCombo();
         ApplyLanguage();
-        LoadConfig();
+
+        if (EnsureSetup())
+            LoadConfig();
 
         _statusTimer.Interval = 1000;
         _statusTimer.Tick += (_, _) => RefreshStatus();
@@ -567,6 +574,89 @@ internal sealed class MainForm : Form
         }
     }
 
+    private bool EnsureSetup()
+    {
+        if (string.IsNullOrWhiteSpace(_gamePath) || !AutoInstaller.IsValidGameDirectory(_gamePath))
+        {
+            var selected = PromptForGameDirectory();
+            if (string.IsNullOrWhiteSpace(selected))
+                return false;
+
+            _gamePath = selected;
+            _configPath = AutoInstaller.GetConfigPath(_gamePath);
+        }
+
+        while (true)
+        {
+            try
+            {
+                UseWaitCursor = true;
+                AutoInstaller.EnsureInstalled(_gamePath);
+                _configPath = AutoInstaller.GetConfigPath(_gamePath);
+                _pathLabel.Text = _configPath;
+                return true;
+            }
+            catch (GameMustBeClosedException)
+            {
+                UseWaitCursor = false;
+
+                var answer = MessageBox.Show(
+                    this,
+                    L.T("setup_close_game"),
+                    Text,
+                    MessageBoxButtons.RetryCancel,
+                    MessageBoxIcon.Information);
+
+                if (answer != DialogResult.Retry)
+                    return false;
+
+                if (AutoInstaller.IsGameRunning(_gamePath))
+                    continue;
+            }
+            catch (Exception ex)
+            {
+                UseWaitCursor = false;
+                MessageBox.Show(
+                    this,
+                    ex.Message,
+                    L.T("setup_failed"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                UseWaitCursor = false;
+            }
+        }
+    }
+
+    private string? PromptForGameDirectory()
+    {
+        while (true)
+        {
+            using var dialog = new FolderBrowserDialog
+            {
+                Description = L.T("select_game_folder"),
+                UseDescriptionForTitle = true,
+                ShowNewFolderButton = false
+            };
+
+            if (dialog.ShowDialog(this) != DialogResult.OK)
+                return null;
+
+            if (AutoInstaller.IsValidGameDirectory(dialog.SelectedPath))
+                return Path.GetFullPath(dialog.SelectedPath);
+
+            MessageBox.Show(
+                this,
+                L.T("invalid_game_folder"),
+                Text,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+        }
+    }
+
     private void LoadConfig()
     {
         try
@@ -751,40 +841,6 @@ internal sealed class MainForm : Form
         {
             MessageBox.Show(this, ex.Message, L.T("start_error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-    }
-
-    private string DetectConfigPath()
-    {
-        try
-        {
-            var baseDir = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-
-            var besideTrainer = Path.Combine(baseDir, "BepInEx", "config", "TPMQoL.cfg");
-            if (File.Exists(besideTrainer))
-                return besideTrainer;
-
-            var parentDir = Directory.GetParent(baseDir)?.FullName;
-            if (!string.IsNullOrWhiteSpace(parentDir))
-            {
-                var oneLevelUp = Path.Combine(parentDir, "BepInEx", "config", "TPMQoL.cfg");
-                if (File.Exists(oneLevelUp))
-                    return oneLevelUp;
-            }
-
-            var process = Process.GetProcessesByName("TPM").FirstOrDefault();
-            var exe = process?.MainModule?.FileName;
-            if (!string.IsNullOrWhiteSpace(exe))
-            {
-                var candidate = Path.Combine(Path.GetDirectoryName(exe)!, "BepInEx", "config", "TPMQoL.cfg");
-                if (File.Exists(candidate))
-                    return candidate;
-            }
-        }
-        catch
-        {
-        }
-
-        return DefaultConfig;
     }
 
     private string GetModVersion()

@@ -10,4 +10,7 @@
     <Version>1.0.0</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Payload\TPMQoL.dll" LogicalName="TPMQoL.Payload.TPMQoL.dll" />
+  </ItemGroup>
 </Project>
