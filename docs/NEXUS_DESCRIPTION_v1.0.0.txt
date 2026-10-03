@@ -1,0 +1,24 @@
+[b]Two Point Museum QoL Trainer 1.0.0[/b]
+
+A configurable QoL mod with a separate multilingual Windows trainer.
+
+[b]Main features[/b]
+• Workshop, training, analysis, veterinary and expedition speed multipliers
+• Staff movement multiplier while preserving vanilla energy/fatigue/skill modifiers
+• Max knowledge after one analysis or veterinary treatment
+• Applicant minimum rank and clean training slots
+• Max expedition survey after one completion
+• Configurable expedition exhibit quality
+• Museum-wide security coverage option
+• First Aid can cure expedition illnesses
+• External self-contained trainer with live config reload
+• 15 interface languages with automatic Steam-language detection
+
+[b]Requirements[/b]
+BepInEx 6 IL2CPP x64.
+
+[b]Installation[/b]
+Extract the archive into the Two Point Museum game folder.
+Start the game once, then run TPMQoLTrainer\TPMQoLTrainer.exe.
+
+Tested with Two Point Museum 12.0.243206+2026-09-29.2232 and BepInEx 6.0.0-be.788.

@@ -1,0 +1,20 @@
+﻿# Build output
+bin/
+obj/
+release-build/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Runtime/generated
+*.log
+*.bak
+*.trainer.bak
+TPMQoL.cfg

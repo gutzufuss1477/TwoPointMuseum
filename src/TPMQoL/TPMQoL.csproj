@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>TPMQoL</AssemblyName>
+    <Product>Two Point Museum QoL Tweaks</Product>
+    <Description>Configurable QoL and gameplay tweaks for Two Point Museum.</Description>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <TPMGameDir>C:\Program Files (x86)\Steam\steamapps\common\Two Point Museum</TPMGameDir>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <RootNamespace>TPMQoL</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+    <Reference Include="0Harmony" HintPath="$(TPMGameDir)\BepInEx\core\0Harmony.dll" Private="false" />
+    <Reference Include="TPS.Game" HintPath="$(TPMGameDir)\BepInEx\interop\TPS.Game.dll" Private="false" />
+    <Reference Include="TPS.Core" HintPath="$(TPMGameDir)\BepInEx\interop\TPS.Core.dll" Private="false" />
+    <Reference Include="TPS.Core.Utils" HintPath="$(TPMGameDir)\BepInEx\interop\TPS.Core.Utils.dll" Private="false" />
+    <Reference Include="Il2Cppmscorlib" HintPath="$(TPMGameDir)\BepInEx\interop\Il2Cppmscorlib.dll" Private="false" />
+    <Reference Include="Il2CppSystem" HintPath="$(TPMGameDir)\BepInEx\interop\Il2CppSystem.dll" Private="false" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(TPMGameDir)\BepInEx\interop\UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="UnityEngine.AIModule" HintPath="$(TPMGameDir)\BepInEx\interop\UnityEngine.AIModule.dll" Private="false" />
+    <Reference Include="Unity.Addressables" HintPath="$(TPMGameDir)\BepInEx\interop\Unity.Addressables.dll" Private="false" />
+    <Reference Include="Unity.Entities" HintPath="$(TPMGameDir)\BepInEx\interop\Unity.Entities.dll" Private="false" />
+  </ItemGroup>
+</Project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
