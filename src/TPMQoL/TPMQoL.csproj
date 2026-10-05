@@ -4,7 +4,7 @@
     <AssemblyName>TPMQoL</AssemblyName>
     <Product>Two Point Museum QoL Tweaks</Product>
     <Description>Configurable QoL and gameplay tweaks for Two Point Museum.</Description>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <TPMGameDir>C:\Program Files (x86)\Steam\steamapps\common\Two Point Museum</TPMGameDir>

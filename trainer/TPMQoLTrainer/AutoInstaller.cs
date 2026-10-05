@@ -467,5 +467,6 @@ internal static class AutoInstaller
         "Analysis = 2" + Environment.NewLine +
         "Wildlife = 1" + Environment.NewLine +
         "Expeditions = 2" + Environment.NewLine +
-        "StaffMovement = 1" + Environment.NewLine;
+        "StaffMovement = 1" + Environment.NewLine +
+        "ExhibitExtras = 10" + Environment.NewLine;
 }

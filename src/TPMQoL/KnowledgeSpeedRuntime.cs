@@ -141,26 +141,83 @@ internal static class KnowledgeSpeedRuntime
         }
     }
 
-    internal static int MaxKnowledgeInsightThreshold()
+    internal static bool TryGetKnowledgeRating(
+        ExhibitDefinitionID definitionId,
+        out ExhibitKnowledgeRatings.KnowledgeRating rating)
     {
+        rating = default;
+
         try
         {
             var ratings = ExhibitKnowledgeRatings.Instance;
-            var config = ratings?._config;
-            var levels = config?.KnowledgeInsightLevels;
-            if (levels == null || levels.Length == 0)
-                return 0;
+            if (ratings == null)
+                return false;
 
-            var max = 0;
-            for (var i = 0; i < levels.Length; i++)
-                if (levels[i] > max)
-                    max = levels[i];
-
-            return max;
+            rating = ratings.Get(Unity.Entities.Entity.Null, definitionId);
+            return rating.MaxKnowledge > 0;
         }
-        catch
+        catch (Exception ex)
         {
+            Plugin.Log.LogWarning(
+                $"Exhibit knowledge lookup failed for {definitionId.ID}: {ex.Message}");
+            return false;
+        }
+    }
+
+    internal static int InsightRewardNeededForOwnMaximum(
+        ExhibitDefinitionID definitionId,
+        out ExhibitKnowledgeRatings.KnowledgeRating rating,
+        out int targetInsight,
+        out int calculatedKnowledge)
+    {
+        targetInsight = 0;
+        calculatedKnowledge = 0;
+
+        if (!TryGetKnowledgeRating(definitionId, out rating))
+            return -1;
+
+        var ratings = ExhibitKnowledgeRatings.Instance;
+        var levels = ratings?._config?.KnowledgeInsightLevels;
+        if (levels == null || levels.Length == 0)
+            return -1;
+
+        calculatedKnowledge = rating.InitialKnowledge;
+        for (var i = 0; i < levels.Length; i++)
+        {
+            if (rating.Insight >= levels[i])
+                calculatedKnowledge++;
+        }
+
+        // Safety guard: only boost when our interpretation of the game's
+        // threshold table reproduces the actual knowledge rating exactly.
+        if (calculatedKnowledge != rating.Knowledge)
+        {
+            Plugin.Log.LogWarning(
+                $"Knowledge threshold model mismatch for {definitionId.ID}: " +
+                $"insight={rating.Insight}, initial={rating.InitialKnowledge}, " +
+                $"actual={rating.Knowledge}, calculated={calculatedKnowledge}, " +
+                $"max={rating.MaxKnowledge}, levels=[{string.Join(", ", levels)}]");
+            return -1;
+        }
+
+        var levelsNeeded = rating.MaxKnowledge - rating.InitialKnowledge;
+        if (levelsNeeded <= 0)
+        {
+            targetInsight = 0;
             return 0;
         }
+
+        var targetIndex = levelsNeeded - 1;
+        if (targetIndex < 0 || targetIndex >= levels.Length)
+        {
+            Plugin.Log.LogWarning(
+                $"Knowledge target outside threshold table for {definitionId.ID}: " +
+                $"initial={rating.InitialKnowledge}, max={rating.MaxKnowledge}, " +
+                $"levels=[{string.Join(", ", levels)}]");
+            return -1;
+        }
+
+        targetInsight = levels[targetIndex];
+        return Math.Max(0, targetInsight - rating.Insight);
     }
 }

@@ -20,6 +20,7 @@ public class Plugin : BasePlugin
     internal static ConfigEntry<float> WildlifeSpeedMultiplier;
     internal static ConfigEntry<float> ExpeditionSpeedMultiplier;
     internal static ConfigEntry<float> StaffMovementMultiplier;
+    internal static ConfigEntry<float> ExhibitExtraInstallSpeedMultiplier;
 
     // Security
     internal static ConfigEntry<float> SecurityCoverageRadius;
@@ -59,6 +60,8 @@ public class Plugin : BasePlugin
             "Expedition progress speed. 1.0 = vanilla.", 20.0f);
         StaffMovementMultiplier = BindSpeed("Speed", "StaffMovement", 1.0f,
             "Final movement-speed multiplier for staff only. Vanilla energy, fatigue and qualification modifiers are preserved.", 5.0f);
+        ExhibitExtraInstallSpeedMultiplier = BindSpeed("Speed", "ExhibitExtras", 10.0f,
+            "Exhibit perk/extra installation speed. 1.0 = vanilla.", 20.0f);
 
         SecurityCoverageRadius = Config.Bind("Security", "CoverageRadius", 1000.0f,
             new ConfigDescription(
@@ -106,6 +109,7 @@ public class Plugin : BasePlugin
         TryPatch(harmony, typeof(ExpeditionGeneratedQualityPatch), "Expedition reward quality");
         TryPatch(harmony, typeof(ExpeditionDisplayedMaxQualityPatch), "Expedition max quality");
         TryPatch(harmony, typeof(FirstAidInteractionPatch), "First-aid expedition cure");
+        TryPatch(harmony, typeof(FirstAidStatusTypeAliasPatch), "First-aid illness type alias");
         TryPatch(harmony, typeof(StaffMovementRegisterPatch), "Staff movement agent register");
         TryPatch(harmony, typeof(StaffMovementUnregisterPatch), "Staff movement agent unregister");
         TryPatch(harmony, typeof(StaffMovementFinalSpeedPatch), "Staff movement final speed");
@@ -127,7 +131,7 @@ public class Plugin : BasePlugin
             $"training={TrainingXpMultiplier.Value:0.##}x, analysis={AnalysisSpeedMultiplier.Value:0.##}x, " +
             $"wildlife={WildlifeSpeedMultiplier.Value:0.##}x, " +
             $"expeditions={ExpeditionSpeedMultiplier.Value:0.##}x, staff movement={StaffMovementMultiplier.Value:0.##}x, " +
-            $"security radius={SecurityCoverageRadius.Value:0.##}");
+            $"exhibit extras={ExhibitExtraInstallSpeedMultiplier.Value:0.##}x, security radius={SecurityCoverageRadius.Value:0.##}");
         Log.LogInfo(
             $"Applicants: rank={ApplicantMinimumRank.Value}, empty skills={ApplicantEmptySkills.Value}; " +
             $"Knowledge: analysis-max={AnalysisMaxKnowledgeAfterOne.Value}, wildlife-max={WildlifeMaxKnowledgeAfterOne.Value}; " +

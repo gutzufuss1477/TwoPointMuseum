@@ -33,6 +33,7 @@ internal sealed class MainForm : Form
     private readonly NumericUpDown _wildlife = Num(1, 20, 0.5m);
     private readonly NumericUpDown _expeditions = Num(1, 20, 0.5m);
     private readonly NumericUpDown _staffMovement = Num(1, 5, 0.25m);
+    private readonly NumericUpDown _exhibitExtraSpeed = Num(1, 20, 0.5m);
 
     private readonly CheckBox _analysisMax = Check("analysis_max");
     private readonly CheckBox _wildlifeMax = Check("vet_max");
@@ -210,6 +211,7 @@ internal sealed class MainForm : Form
         AddNumericRow(speed, "vet", _wildlife, "x");
         AddNumericRow(speed, "expeditions", _expeditions, "x");
         AddNumericRow(speed, "staff", _staffMovement, "x");
+        AddNumericRow(speed, "exhibit_extra_speed", _exhibitExtraSpeed, "x");
         flow.Controls.Add(speed);
 
         var knowledge = NewGroup("knowledge");
@@ -681,6 +683,7 @@ internal sealed class MainForm : Form
             _wildlife.Value = ClampDecimal(cfg.GetFloat("Speed", "Wildlife", 1), _wildlife);
             _expeditions.Value = ClampDecimal(cfg.GetFloat("Speed", "Expeditions", 1), _expeditions);
             _staffMovement.Value = ClampDecimal(cfg.GetFloat("Speed", "StaffMovement", 1), _staffMovement);
+            _exhibitExtraSpeed.Value = ClampDecimal(cfg.GetFloat("Speed", "ExhibitExtras", 10), _exhibitExtraSpeed);
 
             _analysisMax.Checked = cfg.GetBool("Knowledge", "AnalysisMaxAfterOne", false);
             _wildlifeMax.Checked = cfg.GetBool("Knowledge", "WildlifeMaxAfterOne", false);
@@ -729,6 +732,7 @@ internal sealed class MainForm : Form
             cfg.SetFloat("Speed", "Wildlife", _wildlife.Value);
             cfg.SetFloat("Speed", "Expeditions", _expeditions.Value);
             cfg.SetFloat("Speed", "StaffMovement", _staffMovement.Value);
+            cfg.SetFloat("Speed", "ExhibitExtras", _exhibitExtraSpeed.Value);
 
             cfg.SetBool("Knowledge", "AnalysisMaxAfterOne", _analysisMax.Checked);
             cfg.SetBool("Knowledge", "WildlifeMaxAfterOne", _wildlifeMax.Checked);
@@ -763,6 +767,7 @@ internal sealed class MainForm : Form
         _wildlife.Value = 1;
         _expeditions.Value = 1;
         _staffMovement.Value = 1;
+        _exhibitExtraSpeed.Value = 1;
 
         _analysisMax.Checked = false;
         _wildlifeMax.Checked = false;

@@ -1,6 +1,6 @@
 # Two Point Museum QoL Trainer
 
-Version 1.0.0
+Version 1.0.1
 
 A configurable quality-of-life mod for Two Point Museum with a multilingual self-installing Windows trainer.
 
@@ -41,6 +41,7 @@ The trainer is self-contained and does not require a separate .NET installation.
   - staff only,
   - guests are unaffected,
   - vanilla energy, fatigue, robot charging and movement-skill modifiers remain active.
+- Exhibit extra/perk installation: 1x-20x
 
 ### Knowledge
 - Maximum exhibit knowledge after one analysis
@@ -91,5 +92,7 @@ BepInEx itself is not removed automatically because other installed mods may dep
 
 ## Notes
 
+- Normal item-upgrade installation speed is intentionally not modified.
+- First Aid still cures supported expedition ailments, but its interaction duration is left at vanilla speed.
 - Research and Marketing are intentionally not modified.
 - The automatic installer downloads BepInEx only from the official BepInEx build server.

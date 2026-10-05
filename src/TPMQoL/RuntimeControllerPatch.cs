@@ -28,15 +28,22 @@ internal static class RuntimeControllerPatch
 
     private static void Postfix(Metagame __instance)
     {
-        if (__instance == null || ++_ticks % 60 != 0) return;
+        if (__instance == null)
+            return;
+
+        _ticks++;
 
         try
         {
+            if (_ticks % 60 != 0)
+                return;
+
             CheckConfigReload();
             TrainingDefinitionRuntime.EnsureApplied();
             KnowledgeSpeedRuntime.EnsureApplied();
             ExpeditionSurveyRuntime.EnsureApplied();
             FirstAidRuntime.EnsureApplied();
+            ExhibitExtraSpeedRuntime.EnsureApplied();
             ApplicantEmptySkillsRuntime.EnsureApplied();
             StaffMovementAgentRegistry.EnsureExistingRegistered();
             SecurityCoverageRuntime.EnsureApplied();
@@ -80,6 +87,8 @@ internal static class RuntimeControllerPatch
 
         if (Math.Abs(previousStaffMovement - Plugin.StaffMovementMultiplier.Value) > 0.0001f)
             StaffMovementAgentRegistry.RefreshExistingSpeeds();
+
+        ExhibitExtraSpeedRuntime.Reapply();
 
         _lastConfigWriteUtc = File.Exists(path)
             ? File.GetLastWriteTimeUtc(path)

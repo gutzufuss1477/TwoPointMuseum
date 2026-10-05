@@ -13,17 +13,28 @@ internal static class AnalysisKnowledgeRewardPatch
         if (!Plugin.AnalysisMaxKnowledgeAfterOne.Value)
             return;
 
-        var threshold = KnowledgeSpeedRuntime.MaxKnowledgeInsightThreshold();
-        if (threshold <= 0 || insightReward >= threshold)
+        var needed = KnowledgeSpeedRuntime.InsightRewardNeededForOwnMaximum(
+            exhibit.ExhibitDefinitionID,
+            out var rating,
+            out var targetInsight,
+            out var calculatedKnowledge);
+
+        if (needed < 0)
             return;
 
         var before = insightReward;
-        insightReward = threshold;
+        insightReward = needed;
 
-        if (_logged++ < 20)
+        if (_logged++ < 60)
+        {
             Plugin.Log.LogInfo(
-                $"Analysis insight boosted for max knowledge: {before} -> {insightReward} " +
+                $"Analysis insight capped to exhibit maximum: " +
+                $"insight={rating.Insight}, initial={rating.InitialKnowledge}, " +
+                $"knowledge={rating.Knowledge}, calculated={calculatedKnowledge}, " +
+                $"max={rating.MaxKnowledge}, targetInsight={targetInsight}, " +
+                $"reward {before}->{insightReward} " +
                 $"(definition={exhibit.ExhibitDefinitionID.ID})");
+        }
     }
 }
 
@@ -37,16 +48,27 @@ internal static class WildlifeKnowledgeRewardPatch
         if (!Plugin.WildlifeMaxKnowledgeAfterOne.Value)
             return;
 
-        var threshold = KnowledgeSpeedRuntime.MaxKnowledgeInsightThreshold();
-        if (threshold <= 0 || insightReward >= threshold)
+        var needed = KnowledgeSpeedRuntime.InsightRewardNeededForOwnMaximum(
+            exhibit.ExhibitDefinitionID,
+            out var rating,
+            out var targetInsight,
+            out var calculatedKnowledge);
+
+        if (needed < 0)
             return;
 
         var before = insightReward;
-        insightReward = threshold;
+        insightReward = needed;
 
-        if (_logged++ < 20)
+        if (_logged++ < 60)
+        {
             Plugin.Log.LogInfo(
-                $"Wildlife insight boosted for max knowledge: {before} -> {insightReward} " +
+                $"Wildlife insight capped to exhibit maximum: " +
+                $"insight={rating.Insight}, initial={rating.InitialKnowledge}, " +
+                $"knowledge={rating.Knowledge}, calculated={calculatedKnowledge}, " +
+                $"max={rating.MaxKnowledge}, targetInsight={targetInsight}, " +
+                $"reward {before}->{insightReward} " +
                 $"(definition={exhibit.ExhibitDefinitionID.ID})");
+        }
     }
 }

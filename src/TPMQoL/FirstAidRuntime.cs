@@ -15,8 +15,9 @@ internal static class FirstAidRuntime
     // Confirmed usable first-aid items. Upgrade levels I/II/III keep the same base definition.
     private static readonly HashSet<long> FirstAidDefinitionIds = new()
     {
-        -27820635L, // Verbandskasten
-        -90366299L  // Verbandskorb
+        // Expedition Recovery Device. Upgrade levels II/III keep this base
+        // GameItemDefinition; only their upgrade definitions use other IDs.
+        -27820635L
     };
 
     private static readonly Dictionary<long, PendingCure> Pending = new();

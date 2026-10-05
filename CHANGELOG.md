@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.1
+
+- Added configurable exhibit extra/perk installation speed (1x-20x)
+- Fixed max-knowledge rewards to respect each exhibit's own maximum
+- Improved First Aid expedition-illness routing, including Cure-Machine-only illnesses
+- Corrected First Aid item detection to the Expedition Recovery Device
+- Kept normal item-upgrade speed and First Aid interaction speed at vanilla because those acceleration paths were not reliable
+- Updated the trainer and embedded plugin payload for the confirmed 1.0.1 feature set
+
 ## 1.0.0
 
 Initial public release.
