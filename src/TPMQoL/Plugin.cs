@@ -43,6 +43,11 @@ public class Plugin : BasePlugin
     internal static ConfigEntry<bool> FirstAidCuresExpeditionAilments;
     internal static ConfigEntry<bool> FirstAidDiagnostics;
 
+    // Exhibit preservation
+    internal static ConfigEntry<bool> ExhibitsNeverDeteriorate;
+    internal static ConfigEntry<bool> ImmortalPlants;
+    internal static ConfigEntry<bool> AquariumsStayClean;
+
     public override void Load()
     {
         Log = base.Log;
@@ -95,6 +100,13 @@ public class Plugin : BasePlugin
         FirstAidDiagnostics = Config.Bind("Diagnostics", "LogFirstAidCandidates", false,
             "Diagnostic logging for first-aid interactions.");
 
+        ExhibitsNeverDeteriorate = Config.Bind("Preservation", "ExhibitsNeverDeteriorate", false,
+            "Keep exhibit grubbiness/condition at its maximum value.");
+        ImmortalPlants = Config.Bind("Preservation", "ImmortalPlants", false,
+            "Keep vital attributes of botany exhibits at their maximum value.");
+        AquariumsStayClean = Config.Bind("Preservation", "AquariumsStayClean", false,
+            "Keep aquariums clean, messiness at minimum and filter capacity at maximum.");
+
         RuntimeControllerPatch.InitializeConfigTimestamp();
 
         var harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
@@ -137,6 +149,9 @@ public class Plugin : BasePlugin
             $"Knowledge: analysis-max={AnalysisMaxKnowledgeAfterOne.Value}, wildlife-max={WildlifeMaxKnowledgeAfterOne.Value}; " +
             $"Expeditions: survey={ExpeditionSurveyXpMultiplier.Value:0.##}x, max-after-one={ExpeditionMaxSurveyAfterOne.Value}, " +
             $"quality={ExpeditionQuality.Value}, force-quality={ExpeditionForceQuality.Value}");
+        Log.LogInfo(
+            $"Preservation: exhibits={ExhibitsNeverDeteriorate.Value}, " +
+            $"immortalPlants={ImmortalPlants.Value}, aquariumsClean={AquariumsStayClean.Value}");
     }
 
     private ConfigEntry<float> BindSpeed(string section, string key, float defaultValue, string description, float max)

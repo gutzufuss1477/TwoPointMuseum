@@ -133,6 +133,20 @@ internal static class AutoInstaller
             updatedPlugin = true;
         }
 
+        // Never ship or keep development hot-reload payloads as part of a public install.
+        // The main plugin contains the live-module host, but TPMQoLLive.dll is developer-only.
+        var liveModulePath = Path.Combine(bepInExDir, "plugins", "TPMQoL", "live", "TPMQoLLive.dll");
+        if (File.Exists(liveModulePath))
+        {
+            try
+            {
+                File.Delete(liveModulePath);
+            }
+            catch
+            {
+                // A stale development module must never block the normal plugin update.
+            }
+        }
         var configPath = GetConfigPath(gameDirectory);
         if (!File.Exists(configPath))
         {
@@ -453,6 +467,11 @@ internal static class AutoInstaller
         Environment.NewLine +
         "[Health]" + Environment.NewLine +
         "FirstAidCuresExpeditionAilments = true" + Environment.NewLine +
+        Environment.NewLine +
+        "[Preservation]" + Environment.NewLine +
+        "ExhibitsNeverDeteriorate = false" + Environment.NewLine +
+        "ImmortalPlants = false" + Environment.NewLine +
+        "AquariumsStayClean = false" + Environment.NewLine +
         Environment.NewLine +
         "[Knowledge]" + Environment.NewLine +
         "AnalysisMaxAfterOne = true" + Environment.NewLine +

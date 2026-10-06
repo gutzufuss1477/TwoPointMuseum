@@ -1,6 +1,6 @@
 # Two Point Museum QoL Trainer
 
-Version 1.0.1
+Version 1.0.2
 
 A configurable quality-of-life mod for Two Point Museum with a multilingual self-installing Windows trainer.
 
@@ -62,6 +62,12 @@ The trainer is self-contained and does not require a separate .NET installation.
 
 ### Health
 - First Aid can remove expedition illnesses from staff
+
+### Exhibit preservation
+- Exhibits can be kept at 100% condition / grubbiness
+- Botany exhibits can be kept at 100% life so they no longer die from life decay
+- Aquariums can be kept clean with minimum messiness and maximum filter capacity (999)
+- Preservation changes use safe managed/entity-level APIs; direct ECS buffer mutation is not used
 
 ## Trainer
 - Live config editing while the game is running

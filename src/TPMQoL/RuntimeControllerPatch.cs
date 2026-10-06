@@ -35,6 +35,12 @@ internal static class RuntimeControllerPatch
 
         try
         {
+            if (_ticks % 15 == 0)
+            {
+                LiveModuleHost.EnsureApplied();
+                ExhibitPreservationRuntime.EnsureApplied();
+            }
+
             if (_ticks % 60 != 0)
                 return;
 
@@ -89,6 +95,7 @@ internal static class RuntimeControllerPatch
             StaffMovementAgentRegistry.RefreshExistingSpeeds();
 
         ExhibitExtraSpeedRuntime.Reapply();
+        ExhibitPreservationRuntime.Reapply();
 
         _lastConfigWriteUtc = File.Exists(path)
             ? File.GetLastWriteTimeUtc(path)

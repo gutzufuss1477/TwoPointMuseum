@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.2
+
+- Added exhibit preservation options:
+  - keep exhibit condition / grubbiness at 100%
+  - keep botany exhibit life at 100%
+  - keep aquariums clean with filter capacity at maximum (999)
+- Reworked preservation to use the stable, tested entity-level attribute APIs
+- Removed experimental preservation hooks that could affect unrelated wildlife
+- Added a safe live-module development host for future no-restart testing
+- Clarified trainer labels for speeds, applicants, expeditions, First Aid, security coverage and preservation
+- Updated the embedded plugin payload and trainer to version 1.0.2
 ## 1.0.1
 
 - Added configurable exhibit extra/perk installation speed (1x-20x)

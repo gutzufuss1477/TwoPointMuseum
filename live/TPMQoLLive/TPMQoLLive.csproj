@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>TPMQoLLive</AssemblyName>
+    <RootNamespace>TPMQoLLive</RootNamespace>
+    <Version>0.0.1</Version>
+    <LangVersion>latest</LangVersion>
+    <TPMGameDir>C:\Program Files (x86)\Steam\steamapps\common\Two Point Museum</TPMGameDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="TPMQoL" HintPath="..\..\src\TPMQoL\bin\Release\net6.0\TPMQoL.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="$(TPMGameDir)\BepInEx\core\0Harmony.dll" Private="false" />
+    <Reference Include="BepInEx.Core" HintPath="$(TPMGameDir)\BepInEx\core\BepInEx.Core.dll" Private="false" />
+  </ItemGroup>
+</Project>

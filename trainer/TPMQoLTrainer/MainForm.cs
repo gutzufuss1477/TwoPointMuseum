@@ -47,6 +47,10 @@ internal sealed class MainForm : Form
     private readonly NumericUpDown _securityRadius = Num(0, 5000, 50);
     private readonly CheckBox _firstAid = Check("first_aid");
 
+    private readonly CheckBox _preserveExhibits = Check("preserve_exhibits");
+    private readonly CheckBox _immortalPlants = Check("immortal_plants");
+    private readonly CheckBox _aquariumsClean = Check("aquariums_clean");
+
     private string _gamePath = string.Empty;
     private string _configPath = DefaultConfig;
     private bool _loaded;
@@ -261,6 +265,12 @@ internal sealed class MainForm : Form
         var health = NewGroup("health");
         health.Controls.Add(_firstAid);
         flow.Controls.Add(health);
+
+        var preservation = NewGroup("preservation");
+        preservation.Controls.Add(_preserveExhibits);
+        preservation.Controls.Add(_immortalPlants);
+        preservation.Controls.Add(_aquariumsClean);
+        flow.Controls.Add(preservation);
 
         return flow;
     }
@@ -698,6 +708,10 @@ internal sealed class MainForm : Form
             _securityRadius.Value = ClampDecimal(cfg.GetFloat("Security", "CoverageRadius", 0), _securityRadius);
             _firstAid.Checked = cfg.GetBool("Health", "FirstAidCuresExpeditionAilments", false);
 
+            _preserveExhibits.Checked = cfg.GetBool("Preservation", "ExhibitsNeverDeteriorate", false);
+            _immortalPlants.Checked = cfg.GetBool("Preservation", "ImmortalPlants", false);
+            _aquariumsClean.Checked = cfg.GetBool("Preservation", "AquariumsStayClean", false);
+
             _loaded = true;
             _pathLabel.Text = _configPath;
             RefreshStatus();
@@ -747,6 +761,10 @@ internal sealed class MainForm : Form
             cfg.SetFloat("Security", "CoverageRadius", _securityRadius.Value);
             cfg.SetBool("Health", "FirstAidCuresExpeditionAilments", _firstAid.Checked);
 
+            cfg.SetBool("Preservation", "ExhibitsNeverDeteriorate", _preserveExhibits.Checked);
+            cfg.SetBool("Preservation", "ImmortalPlants", _immortalPlants.Checked);
+            cfg.SetBool("Preservation", "AquariumsStayClean", _aquariumsClean.Checked);
+
             cfg.Save(_configPath);
 
             var running = IsGameRunning();
@@ -781,6 +799,10 @@ internal sealed class MainForm : Form
 
         _securityRadius.Value = 0;
         _firstAid.Checked = false;
+
+        _preserveExhibits.Checked = false;
+        _immortalPlants.Checked = false;
+        _aquariumsClean.Checked = false;
 
         try
         {

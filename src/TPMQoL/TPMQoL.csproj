@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>TPMQoL</AssemblyName>
     <Product>Two Point Museum QoL Tweaks</Product>
     <Description>Configurable QoL and gameplay tweaks for Two Point Museum.</Description>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <TPMGameDir>C:\Program Files (x86)\Steam\steamapps\common\Two Point Museum</TPMGameDir>
@@ -28,6 +28,7 @@
     <Reference Include="UnityEngine.AIModule" HintPath="$(TPMGameDir)\BepInEx\interop\UnityEngine.AIModule.dll" Private="false" />
     <Reference Include="Unity.Addressables" HintPath="$(TPMGameDir)\BepInEx\interop\Unity.Addressables.dll" Private="false" />
     <Reference Include="Unity.Entities" HintPath="$(TPMGameDir)\BepInEx\interop\Unity.Entities.dll" Private="false" />
+    <Reference Include="Unity.Collections" HintPath="$(TPMGameDir)\BepInEx\interop\Unity.Collections.dll" Private="false" />
   </ItemGroup>
 </Project>
 
