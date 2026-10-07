@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.3 Preview
+
+- Added a separate science-exhibit corrosion protection option (keeps corrosion at 100%)
+- Added attraction / exhibit-ride construction speed control (1x-20x)
+- Added attraction / exhibit-ride upgrade speed control (1x-20x)
+- Attraction upgrade acceleration only touches ride upgrades; normal item upgrades remain unchanged
+- Confirmed attraction construction and upgrade acceleration in live gameplay testing
+- Fire-extinguishing acceleration was investigated but intentionally not added because preventing science-exhibit deterioration avoids the relevant fire condition
+- Updated trainer controls and config hot reload for the new options
 ## 1.0.2
 
 - Added exhibit preservation options:

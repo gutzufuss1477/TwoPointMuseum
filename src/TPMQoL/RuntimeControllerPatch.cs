@@ -50,6 +50,7 @@ internal static class RuntimeControllerPatch
             ExpeditionSurveyRuntime.EnsureApplied();
             FirstAidRuntime.EnsureApplied();
             ExhibitExtraSpeedRuntime.EnsureApplied();
+            ExhibitRideSpeedRuntime.EnsureApplied();
             ApplicantEmptySkillsRuntime.EnsureApplied();
             StaffMovementAgentRegistry.EnsureExistingRegistered();
             SecurityCoverageRuntime.EnsureApplied();
@@ -95,6 +96,7 @@ internal static class RuntimeControllerPatch
             StaffMovementAgentRegistry.RefreshExistingSpeeds();
 
         ExhibitExtraSpeedRuntime.Reapply();
+        ExhibitRideSpeedRuntime.Reapply();
         ExhibitPreservationRuntime.Reapply();
 
         _lastConfigWriteUtc = File.Exists(path)

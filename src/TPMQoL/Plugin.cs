@@ -21,6 +21,8 @@ public class Plugin : BasePlugin
     internal static ConfigEntry<float> ExpeditionSpeedMultiplier;
     internal static ConfigEntry<float> StaffMovementMultiplier;
     internal static ConfigEntry<float> ExhibitExtraInstallSpeedMultiplier;
+    internal static ConfigEntry<float> ExhibitRideBuildSpeedMultiplier;
+    internal static ConfigEntry<float> ExhibitRideUpgradeSpeedMultiplier;
 
     // Security
     internal static ConfigEntry<float> SecurityCoverageRadius;
@@ -47,6 +49,7 @@ public class Plugin : BasePlugin
     internal static ConfigEntry<bool> ExhibitsNeverDeteriorate;
     internal static ConfigEntry<bool> ImmortalPlants;
     internal static ConfigEntry<bool> AquariumsStayClean;
+    internal static ConfigEntry<bool> ScienceCorrosionProtected;
 
     public override void Load()
     {
@@ -67,6 +70,10 @@ public class Plugin : BasePlugin
             "Final movement-speed multiplier for staff only. Vanilla energy, fatigue and qualification modifiers are preserved.", 5.0f);
         ExhibitExtraInstallSpeedMultiplier = BindSpeed("Speed", "ExhibitExtras", 10.0f,
             "Exhibit perk/extra installation speed. 1.0 = vanilla.", 20.0f);
+        ExhibitRideBuildSpeedMultiplier = BindSpeed("Speed", "AttractionBuild", 1.0f,
+            "Exhibit ride / attraction construction speed. 1.0 = vanilla.", 20.0f);
+        ExhibitRideUpgradeSpeedMultiplier = BindSpeed("Speed", "AttractionUpgrade", 1.0f,
+            "Exhibit ride / attraction upgrade speed only. Normal item upgrades are unaffected. 1.0 = vanilla.", 20.0f);
 
         SecurityCoverageRadius = Config.Bind("Security", "CoverageRadius", 1000.0f,
             new ConfigDescription(
@@ -106,6 +113,8 @@ public class Plugin : BasePlugin
             "Keep vital attributes of botany exhibits at their maximum value.");
         AquariumsStayClean = Config.Bind("Preservation", "AquariumsStayClean", false,
             "Keep aquariums clean, messiness at minimum and filter capacity at maximum.");
+        ScienceCorrosionProtected = Config.Bind("Preservation", "ScienceCorrosionProtected", false,
+            "Keep the science corrosion attribute at 100% on scientific exhibits.");
 
         RuntimeControllerPatch.InitializeConfigTimestamp();
 
@@ -143,7 +152,8 @@ public class Plugin : BasePlugin
             $"training={TrainingXpMultiplier.Value:0.##}x, analysis={AnalysisSpeedMultiplier.Value:0.##}x, " +
             $"wildlife={WildlifeSpeedMultiplier.Value:0.##}x, " +
             $"expeditions={ExpeditionSpeedMultiplier.Value:0.##}x, staff movement={StaffMovementMultiplier.Value:0.##}x, " +
-            $"exhibit extras={ExhibitExtraInstallSpeedMultiplier.Value:0.##}x, security radius={SecurityCoverageRadius.Value:0.##}");
+            $"exhibit extras={ExhibitExtraInstallSpeedMultiplier.Value:0.##}x, attraction build={ExhibitRideBuildSpeedMultiplier.Value:0.##}x, " +
+            $"attraction upgrade={ExhibitRideUpgradeSpeedMultiplier.Value:0.##}x, security radius={SecurityCoverageRadius.Value:0.##}");
         Log.LogInfo(
             $"Applicants: rank={ApplicantMinimumRank.Value}, empty skills={ApplicantEmptySkills.Value}; " +
             $"Knowledge: analysis-max={AnalysisMaxKnowledgeAfterOne.Value}, wildlife-max={WildlifeMaxKnowledgeAfterOne.Value}; " +
@@ -151,7 +161,8 @@ public class Plugin : BasePlugin
             $"quality={ExpeditionQuality.Value}, force-quality={ExpeditionForceQuality.Value}");
         Log.LogInfo(
             $"Preservation: exhibits={ExhibitsNeverDeteriorate.Value}, " +
-            $"immortalPlants={ImmortalPlants.Value}, aquariumsClean={AquariumsStayClean.Value}");
+            $"immortalPlants={ImmortalPlants.Value}, aquariumsClean={AquariumsStayClean.Value}, " +
+            $"scienceCorrosion={ScienceCorrosionProtected.Value}");
     }
 
     private ConfigEntry<float> BindSpeed(string section, string key, float defaultValue, string description, float max)

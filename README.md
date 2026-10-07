@@ -1,6 +1,6 @@
 # Two Point Museum QoL Trainer
 
-Version 1.0.2
+Version 1.0.3 Preview
 
 A configurable quality-of-life mod for Two Point Museum with a multilingual self-installing Windows trainer.
 
@@ -42,6 +42,8 @@ The trainer is self-contained and does not require a separate .NET installation.
   - guests are unaffected,
   - vanilla energy, fatigue, robot charging and movement-skill modifiers remain active.
 - Exhibit extra/perk installation: 1x-20x
+- Attraction / exhibit-ride construction: 1x-20x
+- Attraction / exhibit-ride upgrades: 1x-20x (normal item upgrades unaffected)
 
 ### Knowledge
 - Maximum exhibit knowledge after one analysis
@@ -67,6 +69,7 @@ The trainer is self-contained and does not require a separate .NET installation.
 - Exhibits can be kept at 100% condition / grubbiness
 - Botany exhibits can be kept at 100% life so they no longer die from life decay
 - Aquariums can be kept clean with minimum messiness and maximum filter capacity (999)
+- Science-exhibit corrosion can be kept at 100%
 - Preservation changes use safe managed/entity-level APIs; direct ECS buffer mutation is not used
 
 ## Trainer

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using TPS.Core.Entities;
 using TPS.Game;
@@ -10,15 +10,19 @@ namespace TPMQoL;
 internal static class ExhibitPreservationRuntime
 {
     private const long GrubbinessAttributeId = -1834447109L;
+    private const long ScienceCorrosionAttributeId = -1569331031L;
 
     private static readonly Dictionary<long, float> DefinitionVanillaRates = new();
     private static readonly HashSet<long> BotanyVitalAttributeIds = new();
     private static readonly List<Entity> GrubbinessEntities = new();
+    private static readonly List<Entity> CorrosionEntities = new();
 
     private static long _levelDatabasePointer = long.MinValue;
     private static bool _definitionsReady;
     private static bool _grubbinessReady;
     private static int _grubbinessRefreshTicks;
+    private static bool _corrosionReady;
+    private static int _corrosionRefreshTicks;
 
     private static AquariumManagerConfig _aquariumConfig;
     private static long _aquariumConfigPointer;
@@ -27,6 +31,7 @@ internal static class ExhibitPreservationRuntime
     private static bool _lastExhibitsEnabled;
     private static bool _lastPlantsEnabled;
     private static bool _lastAquariumsEnabled;
+    private static bool _lastCorrosionEnabled;
     private static bool _haveLastSettings;
 
     internal static void EnsureApplied()
@@ -52,6 +57,17 @@ internal static class ExhibitPreservationRuntime
                 ApplyGrubbiness();
             }
 
+            if (Plugin.ScienceCorrosionProtected.Value)
+            {
+                if (!_corrosionReady || ++_corrosionRefreshTicks >= 120)
+                {
+                    DiscoverCorrosionEntities();
+                    _corrosionRefreshTicks = 0;
+                }
+
+                ApplyCorrosion();
+            }
+
             ApplyAquariums();
             LogSettingsIfChanged();
         }
@@ -65,6 +81,8 @@ internal static class ExhibitPreservationRuntime
     {
         _grubbinessReady = false;
         _grubbinessRefreshTicks = 0;
+        _corrosionReady = false;
+        _corrosionRefreshTicks = 0;
         _haveLastSettings = false;
         EnsureApplied();
     }
@@ -83,9 +101,12 @@ internal static class ExhibitPreservationRuntime
             DefinitionVanillaRates.Clear();
             BotanyVitalAttributeIds.Clear();
             GrubbinessEntities.Clear();
+            CorrosionEntities.Clear();
             _definitionsReady = false;
             _grubbinessReady = false;
             _grubbinessRefreshTicks = 0;
+            _corrosionReady = false;
+            _corrosionRefreshTicks = 0;
             _aquariumConfig = null;
             _aquariumConfigPointer = 0;
             _haveLastSettings = false;
@@ -137,6 +158,10 @@ internal static class ExhibitPreservationRuntime
             var grubbiness = LevelDatabaseUtils.Get(new GenericAttributeDefinitionID(GrubbinessAttributeId));
             if (grubbiness != null)
                 RememberVanillaRate(grubbiness);
+
+            var corrosion = LevelDatabaseUtils.Get(new GenericAttributeDefinitionID(ScienceCorrosionAttributeId));
+            if (corrosion != null)
+                RememberVanillaRate(corrosion);
         }
         catch
         {
@@ -163,6 +188,7 @@ internal static class ExhibitPreservationRuntime
             SetDefinitionRate(id, Plugin.ImmortalPlants.Value);
 
         SetDefinitionRate(GrubbinessAttributeId, Plugin.ExhibitsNeverDeteriorate.Value);
+        SetDefinitionRate(ScienceCorrosionAttributeId, Plugin.ScienceCorrosionProtected.Value);
     }
 
     private static void SetDefinitionRate(long id, bool freeze)
@@ -244,6 +270,42 @@ internal static class ExhibitPreservationRuntime
             SetAttributeToMax(GrubbinessEntities[i], GrubbinessAttributeId);
     }
 
+    private static void DiscoverCorrosionEntities()
+    {
+        CorrosionEntities.Clear();
+        NativeArray<Entity> entities = default;
+
+        try
+        {
+            entities = TPS.Core.Entities.EntityManager.Active.GetAllEntities(Allocator.Temp);
+            for (var i = 0; i < entities.Length; i++)
+            {
+                var entity = entities[i];
+                ECGenericAttributeVisual visual;
+                if (!TPS.Core.Entities.EntityManager.TryGetComponentData<ECGenericAttributeVisual>(entity, out visual) ||
+                    visual.AttributeID.ID != ScienceCorrosionAttributeId)
+                    continue;
+
+                GenericAttributeValue value;
+                if (GenericAttributeLogic.TryGetValueByID(entity, ScienceCorrosionAttributeId, out value))
+                    CorrosionEntities.Add(entity);
+            }
+        }
+        finally
+        {
+            if (entities.IsCreated)
+                entities.Dispose();
+        }
+
+        _corrosionReady = true;
+        Plugin.Log.LogInfo($"Science corrosion entities discovered: {CorrosionEntities.Count}");
+    }
+
+    private static void ApplyCorrosion()
+    {
+        for (var i = 0; i < CorrosionEntities.Count; i++)
+            SetAttributeToMax(CorrosionEntities[i], ScienceCorrosionAttributeId);
+    }
     private static void ApplyAquariums()
     {
         var manager = AquariumManager.Instance;
@@ -325,20 +387,23 @@ internal static class ExhibitPreservationRuntime
         var exhibits = Plugin.ExhibitsNeverDeteriorate.Value;
         var plants = Plugin.ImmortalPlants.Value;
         var aquariums = Plugin.AquariumsStayClean.Value;
+        var corrosion = Plugin.ScienceCorrosionProtected.Value;
 
         if (_haveLastSettings &&
             _lastExhibitsEnabled == exhibits &&
             _lastPlantsEnabled == plants &&
-            _lastAquariumsEnabled == aquariums)
+            _lastAquariumsEnabled == aquariums &&
+            _lastCorrosionEnabled == corrosion)
             return;
 
         _haveLastSettings = true;
         _lastExhibitsEnabled = exhibits;
         _lastPlantsEnabled = plants;
         _lastAquariumsEnabled = aquariums;
+        _lastCorrosionEnabled = corrosion;
 
         Plugin.Log.LogInfo(
             $"Preservation applied: exhibitCondition100={exhibits}, botanyLife100={plants}, " +
-            $"aquariumCleanFilterMax={aquariums}");
+            $"aquariumCleanFilterMax={aquariums}, scienceCorrosion100={corrosion}");
     }
 }

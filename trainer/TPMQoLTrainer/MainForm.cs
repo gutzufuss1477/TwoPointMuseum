@@ -34,6 +34,8 @@ internal sealed class MainForm : Form
     private readonly NumericUpDown _expeditions = Num(1, 20, 0.5m);
     private readonly NumericUpDown _staffMovement = Num(1, 5, 0.25m);
     private readonly NumericUpDown _exhibitExtraSpeed = Num(1, 20, 0.5m);
+    private readonly NumericUpDown _attractionBuild = Num(1, 20, 0.5m);
+    private readonly NumericUpDown _attractionUpgrade = Num(1, 20, 0.5m);
 
     private readonly CheckBox _analysisMax = Check("analysis_max");
     private readonly CheckBox _wildlifeMax = Check("vet_max");
@@ -50,6 +52,7 @@ internal sealed class MainForm : Form
     private readonly CheckBox _preserveExhibits = Check("preserve_exhibits");
     private readonly CheckBox _immortalPlants = Check("immortal_plants");
     private readonly CheckBox _aquariumsClean = Check("aquariums_clean");
+    private readonly CheckBox _scienceCorrosion = Check("science_corrosion");
 
     private string _gamePath = string.Empty;
     private string _configPath = DefaultConfig;
@@ -216,6 +219,8 @@ internal sealed class MainForm : Form
         AddNumericRow(speed, "expeditions", _expeditions, "x");
         AddNumericRow(speed, "staff", _staffMovement, "x");
         AddNumericRow(speed, "exhibit_extra_speed", _exhibitExtraSpeed, "x");
+        AddNumericRow(speed, "attraction_build", _attractionBuild, "x");
+        AddNumericRow(speed, "attraction_upgrade", _attractionUpgrade, "x");
         flow.Controls.Add(speed);
 
         var knowledge = NewGroup("knowledge");
@@ -270,6 +275,7 @@ internal sealed class MainForm : Form
         preservation.Controls.Add(_preserveExhibits);
         preservation.Controls.Add(_immortalPlants);
         preservation.Controls.Add(_aquariumsClean);
+        preservation.Controls.Add(_scienceCorrosion);
         flow.Controls.Add(preservation);
 
         return flow;
@@ -694,6 +700,8 @@ internal sealed class MainForm : Form
             _expeditions.Value = ClampDecimal(cfg.GetFloat("Speed", "Expeditions", 1), _expeditions);
             _staffMovement.Value = ClampDecimal(cfg.GetFloat("Speed", "StaffMovement", 1), _staffMovement);
             _exhibitExtraSpeed.Value = ClampDecimal(cfg.GetFloat("Speed", "ExhibitExtras", 10), _exhibitExtraSpeed);
+            _attractionBuild.Value = ClampDecimal(cfg.GetFloat("Speed", "AttractionBuild", 1), _attractionBuild);
+            _attractionUpgrade.Value = ClampDecimal(cfg.GetFloat("Speed", "AttractionUpgrade", 1), _attractionUpgrade);
 
             _analysisMax.Checked = cfg.GetBool("Knowledge", "AnalysisMaxAfterOne", false);
             _wildlifeMax.Checked = cfg.GetBool("Knowledge", "WildlifeMaxAfterOne", false);
@@ -711,6 +719,7 @@ internal sealed class MainForm : Form
             _preserveExhibits.Checked = cfg.GetBool("Preservation", "ExhibitsNeverDeteriorate", false);
             _immortalPlants.Checked = cfg.GetBool("Preservation", "ImmortalPlants", false);
             _aquariumsClean.Checked = cfg.GetBool("Preservation", "AquariumsStayClean", false);
+            _scienceCorrosion.Checked = cfg.GetBool("Preservation", "ScienceCorrosionProtected", false);
 
             _loaded = true;
             _pathLabel.Text = _configPath;
@@ -747,6 +756,8 @@ internal sealed class MainForm : Form
             cfg.SetFloat("Speed", "Expeditions", _expeditions.Value);
             cfg.SetFloat("Speed", "StaffMovement", _staffMovement.Value);
             cfg.SetFloat("Speed", "ExhibitExtras", _exhibitExtraSpeed.Value);
+            cfg.SetFloat("Speed", "AttractionBuild", _attractionBuild.Value);
+            cfg.SetFloat("Speed", "AttractionUpgrade", _attractionUpgrade.Value);
 
             cfg.SetBool("Knowledge", "AnalysisMaxAfterOne", _analysisMax.Checked);
             cfg.SetBool("Knowledge", "WildlifeMaxAfterOne", _wildlifeMax.Checked);
@@ -764,6 +775,7 @@ internal sealed class MainForm : Form
             cfg.SetBool("Preservation", "ExhibitsNeverDeteriorate", _preserveExhibits.Checked);
             cfg.SetBool("Preservation", "ImmortalPlants", _immortalPlants.Checked);
             cfg.SetBool("Preservation", "AquariumsStayClean", _aquariumsClean.Checked);
+            cfg.SetBool("Preservation", "ScienceCorrosionProtected", _scienceCorrosion.Checked);
 
             cfg.Save(_configPath);
 
@@ -786,6 +798,8 @@ internal sealed class MainForm : Form
         _expeditions.Value = 1;
         _staffMovement.Value = 1;
         _exhibitExtraSpeed.Value = 1;
+        _attractionBuild.Value = 1;
+        _attractionUpgrade.Value = 1;
 
         _analysisMax.Checked = false;
         _wildlifeMax.Checked = false;
@@ -803,6 +817,7 @@ internal sealed class MainForm : Form
         _preserveExhibits.Checked = false;
         _immortalPlants.Checked = false;
         _aquariumsClean.Checked = false;
+        _scienceCorrosion.Checked = false;
 
         try
         {
@@ -851,7 +866,7 @@ internal sealed class MainForm : Form
 
         var version = GetModVersion();
         _modLabel.Text = string.IsNullOrWhiteSpace(version)
-            ? $"{L.T("mod")}: —"
+            ? $"{L.T("mod")}: â€”"
             : $"{L.T("mod")}: v{version}";
     }
 

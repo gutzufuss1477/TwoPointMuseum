@@ -472,6 +472,7 @@ internal static class AutoInstaller
         "ExhibitsNeverDeteriorate = false" + Environment.NewLine +
         "ImmortalPlants = false" + Environment.NewLine +
         "AquariumsStayClean = false" + Environment.NewLine +
+        "ScienceCorrosionProtected = false" + Environment.NewLine +
         Environment.NewLine +
         "[Knowledge]" + Environment.NewLine +
         "AnalysisMaxAfterOne = true" + Environment.NewLine +
@@ -487,5 +488,7 @@ internal static class AutoInstaller
         "Wildlife = 1" + Environment.NewLine +
         "Expeditions = 2" + Environment.NewLine +
         "StaffMovement = 1" + Environment.NewLine +
-        "ExhibitExtras = 10" + Environment.NewLine;
+        "ExhibitExtras = 10" + Environment.NewLine +
+        "AttractionBuild = 1" + Environment.NewLine +
+        "AttractionUpgrade = 1" + Environment.NewLine;
 }
