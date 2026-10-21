@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>TPMQoLTrainer</AssemblyName>
+    <RootNamespace>TPMQoLTrainer</RootNamespace>
+    <Version>1.0.4.4</Version>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PluginPayload Condition="'$(PluginPayload)' == ''">Payload\TPMQoL.dll</PluginPayload>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(PluginPayload)" LogicalName="TPMQoL.Payload.TPMQoL.dll" />
+  </ItemGroup>
+</Project>

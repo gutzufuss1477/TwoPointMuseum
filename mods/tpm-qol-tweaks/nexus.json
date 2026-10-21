@@ -1,0 +1,21 @@
+{
+  "name": "TPM QoL Tweaks",
+  "game": "Two Point Museum",
+  "nexusGame": "twopointmuseum",
+  "nexusModId": 21,
+  "nexusUrl": "https://www.nexusmods.com/twopointmuseum/mods/21",
+  "pageVersion": "1.0.4.4",
+  "sourceStatus": "release-workspace",
+  "sourceNote": "Source from the published-release workspace; binaries are downloaded from Nexus. No new runtime test was performed for this source import. The 1.0.4.4 package hash matches the current Nexus file despite older local notes still calling it Preview.",
+  "currentFiles": [
+    {
+      "fileId": 49,
+      "name": "TwoPointMuseum QoL Trainer V1.0.4.4",
+      "version": "1.0.4.4",
+      "category": "MAIN",
+      "sha256": "c524d29a024e9563e9ae67d19e3081454c8a7ced2ffabfbfc4b54cc2963241d2",
+      "bytes": 63765208,
+      "downloadUrl": "https://www.nexusmods.com/twopointmuseum/mods/21?tab=files&file_id=49"
+    }
+  ]
+}
